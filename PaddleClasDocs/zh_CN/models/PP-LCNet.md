@@ -1,6 +1,10 @@
 # PP-LCNet系列
 ---
 
+论文笔记原文：[点这里](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.3/docs/zh_CN/models/PP-LCNet.md)
+
+
+
 ## 目录
 
 - [摘要](#1)
