@@ -70,4 +70,3 @@
 | RepVGG_B2g4 | 0.7881 | 0.9448 | 0.7938 |    |
 | RepVGG_B3g4 | 0.7965 | 0.9485 | 0.8021 |    |
 
-关于Params、FLOPs、Inference speed等信息，敬请期待。
