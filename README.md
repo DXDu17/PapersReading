@@ -2,7 +2,7 @@
 
 
 
-- [PP-LCNet](https://github.com/DXDu17/PapersReading/blob/master/PaddleClasDocs/models/PP-LCNet.md) 
+- [PP-LCNet](https://github.com/DXDu17/PapersReading/blob/master/Models/models/PP-LCNet.md) 
 
 
 
