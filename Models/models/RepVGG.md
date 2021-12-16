@@ -32,7 +32,9 @@
 
 与其他模型的对比图如下：
 
-![](../images/RepVGG/RepVGG-Acc.png)
+<div align=center><img src="../images/RepVGG/RepVGG-Acc.png" width="813" height="400"/></div>
+
+
 
 
 
