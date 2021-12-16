@@ -34,12 +34,6 @@
 
 <div align=center><img src="../images/RepVGG/RepVGG-Acc.png" width="813" height="400"/></div>
 
-
-
-
-
-
-
 <a name="3"></a>
 
 ## 三、方法
