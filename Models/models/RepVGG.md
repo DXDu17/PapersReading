@@ -11,6 +11,8 @@
 - [3. 方法](#3)
 - [4. 实验](#4)
   - [4.1 图像分类](#4.1)
+  - [4.2 结构重新参数化](#4.2)
+  - [4.3 语义分割](#4.3)
 - [5. 总结](#5)
 
 <a name="1"></a>
@@ -35,7 +37,7 @@
 
 与其他模型的对比图如下：
 
-<div align=center><img src="../images/RepVGG/RepVGG-Acc.png" width="813" height="400"/></div>
+<div align=center><img src="../images/RepVGG/RepVGG-Acc.png" width="610" height="300"/></div>
 
 <a name="3"></a>
 
@@ -43,7 +45,7 @@
 
 网络结构如下图所示。
 
-<div align=center><img src="../images/RepVGG/RepVGG-Sketch.png" width="650" height="500"/></div>
+<div align=center><img src="../images/RepVGG/RepVGG-Sketch.png" width="588" height="450"/></div>
 
 提出通过结构重新参数化将训练时间多分支结构与推理时间简单结构解耦，即通过转换其参数将一个结构转换为另一个结构。具体而言，一个网络结构与一组参数耦合，如果某个结构的参数可以转换为与另一个结构耦合的另一组参数，我们可以用后者等价地替换前者，从而改变整个网络结构。
 
@@ -67,29 +69,25 @@
 
 <div align=center><img src="../images/RepVGG/fig4.png" width="470" height="500"/></div>
 
-| Model     | Top-1 acc | Speed | Params (M) | Theo FLOPs (B) | Wino MULs (B) |
-| --------- | --------- | ----- | ---------- | -------------- | ------------- |
-| RepVGG-A0 | 72.41     | 3256  | 8.30       | 1.4            | 0.7           |
-| ResNet-18 | 71.16     | 2442  | 11.68      | 1.8            | 1.0           |
-| RepVGG-A1 | 74.46     | 2339  | 12.78      | 2.4            | 1.3           |
-| RepVGG-B0 |           |       |            |                |               |
-| ResNet-34 |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
-|           |           |       |            |                |               |
+训练200 epoch的性能对比。
 
+<div align=center><img src="../images/RepVGG/fig5.png" width="470" height="145"/></div>
 
+<a name="4.2"></a>
+
+### 4.2 结构重新参数化
+
+所有模型都使用相同的训练设置，从0开始训练120个epoch。从训练时间模型的推理速度来看，通过结构重新参数化去除identity和1×1 conv会显著加速。
+
+<div align=center><img src="../images/RepVGG/fig6.png" width="372" height="145"/></div>
+
+变体模型使用相同的训练设置，从0开始训练120个epoch。
+
+<div align=center><img src="../images/RepVGG/fig7.png" width="370" height="290"/></div>
+
+<a name="4.3"></a>
+
+### 4.3 语义分割
 
 
 
@@ -97,25 +95,4 @@
 
 ## 5. 总结
 
-
-
-
-
-
-
-
-## 精度、FLOPS和参数量
-
-| Models | Top1 | Top5 | Reference<br>top1| FLOPS<br>(G) |
-|:--:|:--:|:--:|:--:|:--:|
-| RepVGG_A0 | 0.7131 | 0.9016 | 0.7241 |     |
-| RepVGG_A1 | 0.7380 | 0.9146 | 0.7446 |     |
-| RepVGG_A2 | 0.7571 | 0.9264 | 0.7648 |     |
-| RepVGG_B0 | 0.7450 | 0.9213 | 0.7514 |     |
-| RepVGG_B1 | 0.7773 | 0.9385 | 0.7837 |     |
-| RepVGG_B2 | 0.7813 | 0.9410 | 0.7878 |     |
-| RepVGG_B1g2 | 0.7732 | 0.9359 | 0.7778 |    |
-| RepVGG_B1g4 | 0.7675 | 0.9335 | 0.7758 |    |
-| RepVGG_B2g4 | 0.7881 | 0.9448 | 0.7938 |    |
-| RepVGG_B3g4 | 0.7965 | 0.9485 | 0.8021 |    |
-
+提出了RepVGG，是一种简单的网络结构，具有3×3 conv和ReLU堆栈，特别适用于GPU和专用推理芯片。通过结构重新参数化方法，它在ImageNet上达到80%以上的top-1精度。与最先进的模型相比，显示出良好的速度与精度权衡。
