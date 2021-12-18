@@ -83,13 +83,15 @@
 
 变体模型使用相同的训练设置，从0开始训练120个epoch。
 
-<div align=center><img src="../images/RepVGG/fig7.png" width="370" height="290"/></div>
+<div align=center><img src="../images/RepVGG/fig7.png" width="300" height="235"/></div>
 
 <a name="4.3"></a>
 
 ### 4.3 语义分割
 
+验证了ImageNet预训练RepVGG在Cityscapes语义分割中的泛化性能.
 
+<div align=center><img src="../images/RepVGG/fig8.png" width="450" height="168"/></div>
 
 <a name="5"></a>
 
