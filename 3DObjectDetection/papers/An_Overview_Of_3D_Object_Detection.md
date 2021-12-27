@@ -91,9 +91,25 @@ RGB图像具有丰富的语义信息，对于目标检测非常有用。3D-GCK�
 
 <div align=center><img src="../images/An_Overview_Of_3D_Object_Detection/object_detection_in_3D_Point_Cloud.png" width="711" height="400"/></div>
 
+有许多方法可以将点云处理为二维数据：
 
+1）使用多个2D透视图来表示3D点云：在数据预处理阶段，以图像中心为原点，以固定半径旋转，从64个不同角度截取点云图像，因为场景中添加了额外的旋转，并且在分类过程中使用了许多实例，所以在一定程度上减少了信息丢失；或者将点云投影到柱面上，尽可能保留更多的信息。
+
+2）BirdNet+是BirdNet的改进，BirdNet是一个目标检测框架。BirdNet+为激光雷达数据的3D目标检测提供端到端解决方案。采用鸟瞰视图表示法，鸟瞰图是从激光雷达点云转换而来的具有三个通道的二维结构，依靠两阶段结构获得面向3D的长方体。
+
+3）DPC-MN（Deep Point Cloud Mapping Network）是一种基于无监督深度学习的、计算效率高的、端到端鲁棒的点云对齐和目标识别方法。该模型无需标签即可训练，并有效实现了从3D点云表示到2D视图的映射功能。
 
 <a name="5.3"></a>
 
 ### 5.3 RGB图像和点云结合做目标检测
+
+使用RGB图像和激光雷达点云数据进行3D目标检测。
+
+1）Frustum PointNets：该算法利用成熟的2D目标检测器减少搜索空间。通过从图像检测器中挤压2D边界框来提取目标的3D边界锥台，然后在3D锥台修剪的3D空间中执行3D目标实例分割。
+
+2）MV3D：将3D点云投影到鸟瞰视图和前视图。鸟瞰视图表示由高度、强度和密度编码，前视图由点云投影到圆柱体平面生成。鸟瞰视图用于生成3D先验框，然后将3D先验框投影到前视图和图像上。三个输入生成一个特征图。ROI pooling将三个特征图集成到同一维度。集成数据由网络融合，并输出分类结果和边界框。
+
+MV3D目标检测示例。
+
+<div align=center><img src="../images/An_Overview_Of_3D_Object_Detection/MV3D_object_detection.png" width="480" height="640"/></div>
 
