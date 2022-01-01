@@ -20,6 +20,7 @@
   - [5.1 数据](#5.1)
   - [5.2 实验设置](#5.2)
   - [5.3 度量](#5.3)
+  - [5.4 结果](#5.4)
 
 <a name="1"></a>
 
@@ -163,9 +164,36 @@ A2D2和Synscapes不提供正式的trainval分配方式和测试集，本文自�
 
 ### 5.2 实验设置
 
-InceptionV1为backbone。根据实验调整优化器和不同loss weights之间的权重。
+InceptionV1为backbone。根据实验调整优化器、不同loss weights的权重、学习率衰减策略。
 
 <a name="5.3"></a>
 
 ### 5.3 度量
 
+KITTI目标检测基准：3D Average Precision (AP)。对于车辆，需要至少70%的IoU才能将3D边界框视为真正（TP）。
+
+Average Orientation Similarity (AOS)用于评估3D-GCK的方向预测能力。
+
+nuScenes：2D中心距离d低于某个阈值，则被视为TP。
+
+<a name="5.4"></a>
+
+### 5.4 结果
+
+速度快
+
+<div align=center><img src="../images/3D-GCK/fps.png" width="400" height="270"/></div>
+
+不同方法的对比
+
+<div align=center><img src="../images/3D-GCK/table1.png" width="876" height="135"/></div>
+
+
+
+不同数据集上的测试结果
+
+<div align=center><img src="../images/3D-GCK/table2.png" width="611" height="214"/></div>
+
+运行时间
+
+<div align=center><img src="../images/3D-GCK/table3.png" width="611" height="173"/></div>
