@@ -186,7 +186,7 @@ nuScenes：2D中心距离d低于某个阈值，则被视为TP。
 
 不同方法的对比
 
-<div align=center><img src="../images/3D-GCK/table1.png" width="876" height="135"/></div>
+<div align=center><img src="../images/3D-GCK/table1.png" width="1052" height="162"/></div>
 
 
 
