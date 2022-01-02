@@ -145,22 +145,7 @@ Box(Init)是一个标准的四参数2D边界框回归器，由Ax、By、Cx、Oy�
 
 在3D-GCK结构的3D框生成器中，每次检测时预测参数都会转换为真实的3D边界框。为此计算了代表缩放S、平移T和旋转R的三个矩阵。
 
-#### 平移
-
-对于每个Box(Init)，原点O的2D坐标计算如下：
-$$
-\begin{array}{l}
-O_x=
-\begin{cases}
-Box_{Init,x_{min}}\ +\ SRatio\ ×\ w_{2D}\ \ if\ L/R=L\\
-Box_{Init,x_{max}}\ −\ SRatio\ ×\ w_{2D}\ \ if\ L/R=R
-\end{cases} \\
-O_y = Box_{Init,y_{max}}
-\end{array}
-$$
-w(2D)是Box(Init)的宽度。为了确定O的3D位置（δx，δy，δz），在O(3D)的距离是预测深度d的约束条件下使用反向图形。对于反向图形，需要相机投影矩阵P。
-
-缩放和旋转过程详见论文。
+平移、缩放和旋转过程详见论文。
 
 <a name="4.4"></a>
 
