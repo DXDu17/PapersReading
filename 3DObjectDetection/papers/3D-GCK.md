@@ -144,6 +144,23 @@ Box(Init)是一个标准的四参数2D边界框回归器，由Ax、By、Cx、Oy�
 
 在3D-GCK结构的3D框生成器中，每次检测时预测参数都会转换为真实的3D边界框。为此计算了代表缩放S、平移T和旋转R的三个矩阵。
 
+#### 平移
+
+对于每个Box(Init)，原点O的2D坐标计算如下：
+$$
+\begin{array}{l}
+O_x=
+\begin{cases}
+Box_{Init,x_{min}}\ +\ SRatio\ ×\ w_{2D}\ \ if\ L/R=L\\
+Box_{Init,x_{max}}\ −\ SRatio\ ×\ w_{2D}\ \ if\ L/R=R
+\end{cases} \\
+O_y = Box_{Init,y_{max}}
+\end{array}
+$$
+
+
+
+
 <a name="5"></a>
 
 ## 5. 实验
@@ -187,8 +204,6 @@ nuScenes：2D中心距离d低于某个阈值，则被视为TP。
 不同方法的对比
 
 <div align=center><img src="../images/3D-GCK/table1.png" width="1052" height="162"/></div>
-
-
 
 不同数据集上的测试结果
 
