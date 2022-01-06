@@ -13,4 +13,6 @@
   - [Deep Learning based Monocular Depth Prediction: Datasets, Methods and Applications](https://github.com/DXDu17/PapersReading/blob/master/DepthEstimation/papers/Deep_Learning_based_Monocular_Depth_Prediction_Datasets_Methods_and_Applications.md)
 - Person ReID
   - [Deep Learning for Person Re-identification: A Survey and Outlook](https://github.com/DXDu17/PapersReading/blob/master/PersonReID/papers/Deep_Learning_for_Person_Re-identification_A_Survey_and_Outlook.md)
+- Vehicle ReID
+  - [Going Beyond Real Data: A Robust Visual Representation for Vehicle Re-identification](https://github.com/DXDu17/PapersReading/blob/master/VehicleReID/papers/Going_Beyond_Real_Data_A_Robust_Visual_Representation.md)
 
