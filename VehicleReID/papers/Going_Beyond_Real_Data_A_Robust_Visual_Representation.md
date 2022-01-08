@@ -61,9 +61,11 @@ ITS感知系统通常包括以下功能，检测交通要素，跟踪要素，�
 
 ### 4.1 合成数据
 
-##### 风格变换
+##### 风格转换
 
 与经典的车辆reid数据不同，AICity-Flow由真实数据和合成数据组成。虽然合成数据中的id来自于真实世界，但合成图像与真实图像仍然存在明显的风格差异，即众所周知的域差距。为了解决这一问题，本文采用图像转换技术。像CycleGAN一样的框架，即UNIT，使用真实数据和合成数据作为两个不同的来源进行训练。在训练时输入图像需要在两个源之间转换。训练后将所有合成图像按照合成→真实方向进行转换，得到更加真实的样本，减小分布差距。
+
+<div align=center><img src="../images/Going_Beyond_Real_Data_A_Robust_Visual_Representation/StyleTransform.png" width="900" height="372"/></div>
 
 ##### 内容操作
 
@@ -79,7 +81,19 @@ ITS感知系统通常包括以下功能，检测交通要素，跟踪要素，�
 
 ##### 网络结构
 
-根据现有的re-id工作，把在ImageNet上预先训练的SOTA网络作为骨干模块，包括ResNeXt101、ResNeXt101_32x8l_wsl和ResNet50_IBN_a。
+根据现有的re-id工作，把在ImageNet上预先训练的SOTA网络作为骨干模块，包括ResNeXt101、ResNeXt101_32x8l_wsl和ResNet50_IBN_a。部署开源网络结构变体有：
+
+vanilla reid基线将ImageNet的原始分类层替换为一个新的分类器模块。新的分类器模块包含一个全连接层fc1、一个BN层和一个全连接层fc2。fc1层将学习到的特征压缩到512维，fc2层作为线性分类器来输出类别预测。在推理时，提取fc2层之前的512维特征作为视觉表示。
+
+另一个复杂的reid网络体系结构，融合了多尺度信息以增强车辆表示。下图简要说明了该网络结构。
+
+<div align=center><img src="../images/Going_Beyond_Real_Data_A_Robust_Visual_Representation/network_architecture.png" width="652" height="268"/></div>
+
+采用ResNet主干的最后两个块（即块3和块4）的激活。将这两个特征分别表示为X3和X4。全局平均池化（GAP）和全局最大池化（GMP）用于获得全局表示。在X4上执行输出大小为2×2的自适应平均池化（AAP）和自适应最大池化（AMP），以获得局部表示。X3_g_avg表示X3的全局平均池化特征，X4_a_max表示X4的自适应最大池化特征。同样还获得了X3_g_max、X4_g_avg、X4_g_max和X4_a_avg。所有上述输出特征都受到ranking loss的监督，以拉近相同id的样本，区分不同id的样本。X3_g_avg和X3 g_max被进一步送至head模块，X4_g_avg和X4_g_max、X4_a_avg和X4_a_avg也被送至head模块。head模块：BN1+leaky-relu+Conv+BN2+fc，用于预测车辆身份。交叉熵损失用于惩罚错误预测。
+
+##### 优化函数
+
+
 
 <a name="4.3"></a>
 
