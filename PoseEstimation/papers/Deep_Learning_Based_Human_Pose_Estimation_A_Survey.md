@@ -28,6 +28,8 @@
   - [5.3 3D HPE总结](#5.3)
 - [6. 数据集和评价指标](#6)
   - [6.1 2D HPE数据集](#6.1)
+    - [6.1.1 基于图像的数据集](#6.1.1)
+    - [6.1.2 基于视频的数据集](#6.1.2)
   - [6.2 2D HPE评价指标](#6.2)
   - [6.3 2D HPE方法性能比较](#6.3)
   - [6.4 3D HPE数据集](#6.4)
@@ -224,11 +226,28 @@ Model-free方法不使用人体模型来重建3D人体表示。这些方法可�
 
 ## 6. 数据集和评价指标
 
-
+数据集对HPE很重要并且是必要的，但收集全面、通用的数据集很有挑战。
 
 <a name="6.1"></a>
 
 ### 6.1 2D HPE数据集
+
+在深度学习进入人体姿态估计之前，有很多2D人体姿势数据集。这些数据集有两种类型：（1）上半身姿态数据集，包括Buffy Stickmen、ETHZ PASCAL Stickmen、We Are Family、Video pose 2和Sync. Activities；（2）全身姿势数据集，包括PASCAL Person
+Layout、Sport和UIUC people。然而，最近只有少数工作使用这些2D HPE数据集，它们有许多局限性，如缺乏多样的物体运动、图片数量少。
+
+2D HPE数据集介绍：
+
+<div align=center><img src="../images/Deep_Learning_Based_Human_Pose_Estimation_A_Survey/2D_HPE_datasets.png" width="638" height="381"/></div>
+
+<a name="6.1.1"></a>
+
+#### 6.1.1 基于图像的数据集
+
+
+
+<a name="6.1.2"></a>
+
+#### 6.1.2 基于视频的数据集
 
 
 
