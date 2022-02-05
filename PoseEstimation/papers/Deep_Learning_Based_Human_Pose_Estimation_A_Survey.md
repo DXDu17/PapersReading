@@ -247,7 +247,7 @@ Frames Labeled In Cinema（FLIC）数据集：早期基于图像的2D HPE数据�
 
 Leeds Sports Pose（LSP）数据集：包含来自Flickr的2000张带标注的图像和8个运动标签，涵盖不同的运动项目，包括田径、羽毛球、棒球、体操、跑酷、足球、网球和排球。在LSP数据集中，每个人的全身总共有14个关节。LSP Extended扩展了LSP，仅用于训练。LSP扩展数据集拥有来自Flickr的超过10000张图像。在近期研究中，LSP和LSP扩展数据集已用于单人HPE。
 
-Max Planck Institute for Informatics（MPII）人体姿态数据集：用于评估清晰HPE的流行数据集。包括约25000张图像，其中包含超过40000个带标注的身体关节的个体。在文261的基础上，通过两级分层方法系统地收集图像，以捕捉日常人类活动。整个数据集涵盖410项人类活动，所有图像都有标签。每个图像都是从YouTube视频中提取的，并提供了前后未加注释的帧。此外，亚马逊Mechanical Turk上的工作人员还标记了丰富的注释，包括身体部位遮挡、三维躯干和头部方向。MPII中的图像适用于2D单人或多人HPE。
+Max Planck Institute for Informatics（MPII）人体姿态数据集：用于评估铰接式HPE的流行数据集。包括约25000张图像，其中包含超过40000个带标注的身体关节的个体。在文261的基础上，通过两级分层方法系统地收集图像，以捕捉日常人类活动。整个数据集涵盖410项人类活动，所有图像都有标签。每个图像都是从YouTube视频中提取的，并提供了前后未加注释的帧。此外，亚马逊Mechanical Turk上的工作人员还标记了丰富的注释，包括身体部位遮挡、三维躯干和头部方向。MPII中的图像适用于2D单人或多人HPE。
 
 Microsoft Common Objects in Context（COCO）数据集：是使用最广泛的大型数据集。它有超过33万张图像和20万个带有关键点的标注对象，每个人都有17个关节。COCO数据集不仅用于姿态估计和分析，还用于自然环境目标检测和图像分割、上下文识别等。对于HPE，COCO数据集有两个版本：COCO keypoints 2016和COCO keypoints 2017，区别在于训练、验证和测试的划分。COCO数据集已广泛用于多人HPE工作。此外，文262提出了具有HPE全身标注的COCO全身数据集。
 
@@ -259,19 +259,37 @@ CrowdPose数据集：是在拥挤和闭塞环境下2D HPE的最新数据集之�
 
 #### 6.1.2 基于视频的数据集
 
+Penn Action数据集：由2326个视频序列组成，其中包含15种不同的动作和人类关节标注。这些视频包含带有运动动作标注的框架：棒球场、棒球挥杆、网球正手、网球发球、板凳推举、保龄球、挺举、高尔夫挥杆、跳绳、跳高、引体向上、俯卧撑、仰卧起坐、蹲下和弹拨吉他。图像的标注使用Amazon Mechanical Turk进行标记。
 
+Joint-annotated Human Motion Database（J-HMDB）：用于动作识别、人体检测和HPE的完全标注视频数据集。共有21个动作类别，包括刷毛、接球、拍手、爬楼梯、高尔夫、跳跃、踢球、挑、倒、上拉、推、跑、投篮、射弓、射枪、坐、站、挥棒、扔、走和挥手。共有928个视频剪辑，包括31838个带标注的帧。基于Amazon Mechanical Turk，采用2D铰接式人偶模型生成所有标注。J-HMDB数据集中70%的图像用于训练，其余用于测试。
+
+PoseTrack数据集：用于视频分析中的多人姿态估计和关节跟踪的大型数据集。视频中的每个人都有一个带有标注的唯一跟踪ID。PoseTrack包含1356个视频序列、约46000个带标注的视频帧和276000个用于训练、验证和测试的人体姿态标注。
 
 <a name="6.2"></a>
 
 ### 6.2 2D HPE评价指标
 
+精确评估HPE的性能很难，因为需要考虑许多特性和要求（例如，上/全身、单/多姿态估计、人体大小）。因此有许多评价指标用于2D HPE。
 
+Percentage of Correct Parts（PCP）：2D HPE早期工作中常用的一种测量方法，它评估棍状预测，用来报告肢体的定位精度。当预测关节和gt关节之间的距离小于肢体长度的一部分（介于0.1到0.5之间）时，确定肢体的定位。在一些工作中，PCP测量也被称为PCP@0.5，其中阈值为0.5。这一指标用于LSP数据集的单人HPE评估。然而PCP并没有在近期研究中得到广泛应用，因为它会惩罚难以检测的短肢。当模型的PCP测量值较高时，它的性能会更好。为了解决PCP的缺点，文36引入了Percentage of Detected Joints（PDJ），如果预测关节和gt关节之间的距离在躯干直径的特定部分内，则认为预测关节被检测到。
+
+Percentage of Correct Keypoints（PCK）：用于测量给定阈值内不同关键点的定位精度。阈值设置为每个测试图像头段长度的50%，表示为PCKh@0.5。当检测到的关节和真实关节之间的距离小于躯干直径的0.2倍时，表示为PCK@0.2。PCK值越高，模型性能越好。
+
+Average Precision（AP）和Average Recall（AR）。AP测量是根据精确度（TP结果与总TP结果的比率）和召回率（TP结果与总TP结果的比率）来衡量关键点检测准确性的指标。AP计算召回率在0到1之间的平均精度值。AP有几个类似的变种。如，在文264中引入Average Precision of Keypoints（APK）。Mean Average Precision（mAP）是所有类别的平均精度的平均值，是MPII和PoseTrack数据集上广泛使用的指标。AR是COCO关键点评估中使用的另一个指标。Object Keypoint Similarity（OKS）在目标检测中起着与IoU相似的作用，用于AP或AR。该度量是根据目标的规模以及预测点和gt点之间的距离计算的。COCO评估通常使用跨越10个OKS阈值的mAP作为评价指标。
 
 <a name="6.3"></a>
 
 ### 6.3 2D HPE方法性能比较
 
+2D单人HPE方法在MPII数据集上的比较：
 
+<div align=center><img src="../images/Deep_Learning_Based_Human_Pose_Estimation_A_Survey/2D_single_compare.png" width="638" height="381"/></div>
+
+2D多人HPE方法在MPII数据集上的比较：
+
+<div align=center><img src="../images/Deep_Learning_Based_Human_Pose_Estimation_A_Survey/2D_multi_compare.png" width="646" height="163"/></div>
+
+值得注意的是，身体检测方法通常比回归方法具有更好的性能，因此在近期2D HPE研究中得到了更广泛的应用。
 
 <a name="6.4"></a>
 
@@ -289,9 +307,13 @@ CrowdPose数据集：是在拥挤和闭塞环境下2D HPE的最新数据集之�
 
 ### 6.6 3D HPE方法性能比较
 
+HPE应用：
 
+<div align=center><img src="../images/Deep_Learning_Based_Human_Pose_Estimation_A_Survey/application.png" width="624" height="303"/></div>
 
+动作识别、预测、检测和跟踪：姿态信息已被用作各种应用的线索，如动作识别、预测、检测和跟踪。文274提出一种实时动作识别方法，使用的是基于姿态的算法。文275利用姿态的动态骨架模式进行动作识别。文276研究用于视频中人类行为异常检测的人体姿态图。文243使用预测的3D姿态进行长期人体运动预测。文277提出一种用于视频对齐的视图不变概率姿态嵌入方法。
 
+基于姿态的视频监控通过监控姿态和人体网格表示而不是人类敏感身份，具有保护隐私的优点。文278嵌入带有姿态的视频，用于识别日常生活活动，以监控人类行为。
 
 <a name="7"></a>
 
