@@ -251,6 +251,8 @@ Max Planck Institute for Informatics（MPII）人体姿态数据集：用于评�
 
 Microsoft Common Objects in Context（COCO）数据集：是使用最广泛的大型数据集。它有超过33万张图像和20万个带有关键点的标注对象，每个人都有17个关节。COCO数据集不仅用于姿态估计和分析，还用于自然环境目标检测和图像分割、上下文识别等。对于HPE，COCO数据集有两个版本：COCO keypoints 2016和COCO keypoints 2017，区别在于训练、验证和测试的划分。COCO数据集已广泛用于多人HPE工作。此外，文262提出了具有HPE全身标注的COCO全身数据集。
 
+AI Challenger Human Keypoint Detection（AIC-HKD）数据集：
+
 <a name="6.1.2"></a>
 
 #### 6.1.2 基于视频的数据集
