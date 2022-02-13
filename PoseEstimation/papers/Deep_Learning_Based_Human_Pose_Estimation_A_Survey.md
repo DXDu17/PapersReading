@@ -277,7 +277,7 @@ Percentage of Correct Parts（PCP）：2D HPE早期工作中常用的一种测�
 
 Percentage of Correct Keypoints（PCK）：用于测量给定阈值内不同关键点的定位精度。阈值设置为每个测试图像头段长度的50%，表示为PCKh@0.5。当检测到的关节和真实关节之间的距离小于躯干直径的0.2倍时，表示为PCK@0.2。PCK值越高，模型性能越好。
 
-Average Precision（AP）和Average Recall（AR）。AP测量是根据精确度（TP结果与总TP结果的比率）和召回率（TP结果与总TP结果的比率）来衡量关键点检测准确性的指标。AP计算召回率在0到1之间的平均精度值。AP有几个类似的变种。如，在文264中引入Average Precision of Keypoints（APK）。Mean Average Precision（mAP）是所有类别的平均精度的平均值，是MPII和PoseTrack数据集上广泛使用的指标。AR是COCO关键点评估中使用的另一个指标。Object Keypoint Similarity（OKS）在目标检测中起着与IoU相似的作用，用于AP或AR。该度量是根据目标的规模以及预测点和gt点之间的距离计算的。COCO评估通常使用跨越10个OKS阈值的mAP作为评价指标。
+Average Precision（AP）和Average Recall（AR）。AP测量是根据精确度（TP结果与总TP结果的比率）和召回率（TP结果与总的gt Positive结果的比率）来衡量关键点检测准确性的指标。AP计算召回率在0到1之间的平均精度值。AP有几个类似的变种。如，在文264中引入Average Precision of Keypoints（APK）。Mean Average Precision（mAP）是所有类别的平均精度的平均值，是MPII和PoseTrack数据集上广泛使用的指标。AR是COCO关键点评估中使用的另一个指标。Object Keypoint Similarity（OKS）在目标检测中起着与IoU相似的作用，用于AP或AR。该度量是根据目标的规模以及预测点和gt点之间的距离计算的。COCO评估通常使用跨越10个OKS阈值的mAP作为评价指标。
 
 <a name="6.3"></a>
 
