@@ -70,46 +70,69 @@ heatmap标签表示的一个主要难点在于计算成本，由于涉及到输�
 
 **标准坐标解码方法**    是根据模型性能经验设计的。具体来说，给定一个训练模型预测的heatmap h，首先确定最大(m)和第二最大(s)激活值的坐标。然后将关节位置预测为：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func1.png" width="404" height="64"/></div>
+
 || . ||2定义为向量的数量级。这个公式表示在heatmap空间中最大激活向第二大激活偏移0.25个像素后获得的结果。原始图像中的最终坐标预测计算如下：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func2.png" width="357" height="58"/></div>
 
 λ表示分辨率下降率。
 
-备注等式（1）中亚像素偏移的目的是补偿图像分辨率下采样的量化效应。也就是说，预测heatmap中的最大激活并不对应于关节在原始坐标空间中的准确位置，仅对应一个粗略位置。这种转换显著提升了性能，令人惊讶。这解释了此操作经常被用作模型测试标准操作的原因。目前还没有具体的工作深入研究这种操作对人体姿态估计性能的影响。这种标准方法在设计上缺乏直觉和可解释性，但一直没有专门去改进。本文针对偏移估计提出一种原则性方法，获得了更加精确的人体姿态估计结果，从而填补了这一空白。
+*备注*    等式(1)中亚像素偏移的目的是补偿图像分辨率下采样的量化效应。也就是说，预测heatmap中的最大激活并不对应于关节在原始坐标空间中的准确位置，仅对应一个粗略位置。这种转换显著提升了性能，令人惊讶。这解释了此操作经常被用作模型测试标准操作的原因。目前还没有具体的工作深入研究这种操作对人体姿态估计性能的影响。这种标准方法在设计上缺乏直觉和可解释性，但一直没有专门去改进。本文针对偏移估计提出一种原则性方法，获得了更加精确的人体姿态估计结果，从而填补了这一空白。
 
 **所提坐标解码方法**    探索了二预测heatmap的分布结构，用于推理潜在的最大激活。这与上述依靠手工设计偏移预测的标准方法大有不同，上述方法几乎没有设计依据和理论基础。
 
 具体来说，为了获得亚像素级的准确位置，本文假设预测heatmap遵循2D高斯分布，与gt heatmap相同。因此，预测heatmap表示为：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func3.png" width="542" height="66"/></div>
+
+x表示预测heatmap中的像素位置，µ是对应待估计关节位置的高斯平均（中心）。协方差∑是一个对角线矩阵，与坐标编码使用的相同：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func4.png" width="360" height="82"/></div>
+
 σ表示两个方向有相同的标准差。
 
 在对数似然优化原则中，使用对数转换G，便于推理，同时保持最大激活的原始位置为：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func5.png" width="509" height="121"/></div>
+
 本方法的目标是估算μ。作为分布中的一个极值点，μ点的一阶导数满足如下条件：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func6.png" width="521" height="100"/></div>
 
 为了探索这个条件，这里采用泰勒定理。形式上，在预测heatmap的最大激活m处得出的泰勒级数（直到二次项）来近似激活P(μ)，表示为：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func7.png" width="545" height="75"/></div>
+
 D''(m)表示在m处得出的P的二阶导数（即Hessian），形式上定义为：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func8.png" width="433" height="87"/></div>
 
 选择m来近似μ的直觉是，它能代表一个接近μ的良好粗略关节预测。
 
-
-
 将公式(6)(7)(8)组合，最终获得：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func9.png" width="431" height="63"/></div>
 
 D''((m) 和 D'(m)从heatmap中可以有效估计。一旦获得μ，也可以用公式(2)来预测原始图像空间的坐标。
 
-备注与只考虑heatmap中第二大激活的标准方法相比，所提坐标解码充分探索了热图分布统计信息，以便更准确地揭示潜在的最大激活。理论上，在训练监督一致性假设下，本文方法基于一个原则性的分布近似，即假设heatmap是高斯分布。关键是计算非常高效，只需要计算每个heatmap上一个位置的一阶和二阶导数。因此，现有人体姿态估计方法可以在没有任何计算成本妨碍的情况下提升效果。
+*备注*    与只考虑heatmap中第二大激活的标准方法相比，所提坐标解码充分探索了热图分布统计信息，以便更准确地揭示潜在的最大激活。理论上，在训练监督一致性假设下，本文方法基于一个原则性的分布近似，即假设heatmap是高斯分布。关键是计算非常高效，只需要计算每个heatmap上一个位置的一阶和二阶导数。因此，现有人体姿态估计方法可以在没有任何计算成本妨碍的情况下提升效果。
 
+**heatmap分布调制**    由于所提坐标解码方法是基于高斯分布假设，因此有必要检查该条件的满足程度。本文发现，与训练heatmap数据相比，由人体姿态估计模型预测的heatmap通常不具有良好的高斯结构。如下图(a)所示，heatmap通常在最大激活周围呈现多个峰值。这可能会对解码方法的性能造成消极影响。为了解决这个问题，本文建议预先调整heatmap分布。
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/fig3.png" width="823" height="390"/></div>
 
-**heatmap分布调制**    由于所提坐标解码方法是基于高斯分布假设，因此有必要检查该条件的满足程度。本文发现，与训练heatmap数据相比，由人体姿态估计模型预测的heatmap通常不具有良好的高斯结构。如图3（a）所示，heatmap通常在最大激活周围呈现多个峰值。这可能会对解码方法的性能造成消极影响。为了解决这个问题，本文建议预先调整heatmap分布。
 具体来说，为了满足本文方法的要求，提出利用高斯核K来平滑heatmap h中多个峰值的影响，高斯核的变量与训练数据采用的变量相同，平滑形式如下：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func10.png" width="340" height="49"/></div>
 
 *指定为卷积运算。
 
 为了保持原始heatmap的大小，本文最终通过以下转换缩放h'，使其最大激活等于h的最大激活：
 
-其中max()和min()分别返回输入矩阵的最大值和最小值。实验分析验证了这种分布调制进一步提高了本文坐标解码方法（表3）的性能，产生的视觉效果和定性评估如图3（b）所示。
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func11.png" width="453" height="74"/></div>
+
+其中max()和min()分别返回输入矩阵的最大值和最小值。实验分析验证了这种分布调制进一步提高了本文坐标解码方法（表3）的性能，产生的视觉效果和定性评估如上图(b)所示。
 
 **总结**    本文在图2中总结了所提坐标解码方法。具体而言，总共涉及三个步骤：a) heatmap分布调制（等式(10)，(11)）；b) 通过亚像素精度泰勒展开获得分布感知关节定位（等式(3) - (9)）；c) 分辨率恢复到原始坐标空间（等式(2)）。这些步骤都不会增加过多的计算成本，因此能够作为现有模型的有效插件。
 
@@ -121,24 +144,33 @@ D''((m) 和 D'(m)从heatmap中可以有效估计。一旦获得μ，也可以用
 
 形式上，用 g=(u, v) 表示关节的gt坐标。降低分辨率的过程定义为：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func12.png" width="406" height="58"/></div>
+
 λ是下采样率。
 
-
 通常情况，为了便于生成kernel，我们通常量化g'：
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func13.png" width="521" height="60"/></div>
 
 
 quantise()表示量化函数，常用选项包括floor、ceil和round。
 
 随后，通过以下方式合成heatmap，heatmap以量化坐标g''为中心：
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func14.png" width="520" height="68"/></div>
+
 
 其中(x, y)表示heatmap的像素位置，σ表示固定的空间方差。
 
-显然，由于量化误差，以上述方式生成的heatmap并不准确且有偏差（图4）。这可能会引入次优监督信号，并导致模型性能下降，尤其是在本文所提精确坐标编码情况下。
+显然，由于量化误差，以上述方式生成的heatmap并不准确且有偏差（如下图）。这可能会引入次优监督信号，并导致模型性能下降，尤其是在本文所提精确坐标编码情况下。
 
-为了解决这个问题，只需将heatmap中心点设置为无偏量化位置g'，该位置代表了准确的gt坐标。本文仍然使用公式(14)，但是将g''替换为g'。本文将论证这种无偏heatmap生成方法的好处（表3）。<a name="4.3"></a>
 
-### 4.2 集成到SOTA模型
+
+为了解决这个问题，只需将heatmap中心点设置为无偏量化位置g'，该位置代表了准确的gt坐标。本文仍然使用公式(14)，但是将g''替换为g'。本文将论证这种无偏heatmap生成方法的好处（表3）。
+
+<a name="4.3"></a>
+
+### 4.3 集成到SOTA模型
 
 DARK方法与模型无关，可以与任何现有基于heatmap的姿态模型无缝集成，并且这些算法不需要修改。在训练过程中，唯一的变化是根据精确的关节坐标生成gt heatmap数据。测试阶段，将任意模型预测的heatmap作为输入，在原始图像空间中输出更精确的关节坐标。在整个生命周期中，本文方法保持现有模型与原始设计无异。这使得本文方法具有最大的通用性和可扩展性。
 
@@ -160,11 +192,17 @@ DARK方法与模型无关，可以与任何现有基于heatmap的姿态模型无
 
 **(i) 坐标解码**    本文评估了坐标解码的效果，尤其是偏移操作和分布调制。使用传统的偏置heatmap。测试中，比较了所提无偏分布感知偏移（即直接使用最大激活位置）方法和标准偏移方法。主要观察两项：1）标准偏移可提高5.7%的AP精度，效果惊人。这揭示了坐标解码对人体姿态估计的重要性。2）所提方法将AP分数进一步提高了1.5%，分布调制给出了0.3%的提升。如表2所示。这验证了本文解码方法的优越性。
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/tab2.png" width="525" height="158"/></div>
+
 **(ii) 坐标编码**    本文验证了坐标编码的有效性。对比所提无偏编码和标准有偏编码，以及标准解码和所提解码方法。表3表示，无论采用哪种坐标解码方法，所提无偏编码都会提升性能。特别的，无偏编码在这两种情况下能持续提供超过1%的AP增益。这表明坐标编码的重要性。
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/tab3.png" width="527" height="214"/></div>
 
 **(iii) 输入分辨率**    考虑到输入图像的分辨率/尺寸是与模型推理效率相关的一个重要因素，本文通过测试许多不同尺寸来验证其影响程度。将DARK模型（HRNet-W32为主干）与原始HRNet-W32进行比较，使用有偏heatmap监督进行训练，并使用标准偏移进行测试。观察结果如下：1）随着输入图像尺寸的减小，模型性能持续下降，而推理成本下降明显。2）加入DARK后，模型性能损失得到有效缓解，尤其是在输入分辨率非常小的情况下。这有助于在低资源设备上部署人体姿态估计模型。
 
 **(iv) 普适性**    除了HRNet，还在SimpleBaseline和Hourglass上进行了测试。表5结果表明，在大多数情况下，DARK能为现有模型提供显著的性能增益。这表明所提方法具有普适性。图5中展示了定性评估。
+
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/tab5.png" width="908" height="372"/></div>
 
 **(v) 复杂性**    在HRNet-W32上测试了所提方法在128×96输入尺寸下对推理效率的影响。在Titan V GPU上，低效python环境中，运行速度从360fps下降到320fps，即下降了11%。这种额外性能损失是可以接受的。
 
@@ -172,11 +210,16 @@ DARK方法与模型无关，可以与任何现有基于heatmap的姿态模型无
 
 ### 5.2 与SOTA模型比较
 
+**(i) 在COCO上的评估**    比较DARK和SOTA方法，包括G-RMI、积分姿态回归、CPN、RMPE、SimpleBaseline和HRNet。表6显示了SOTA方法和DARK在COCO test-dev上的准确性结果。在本测试中，借用了Sun等人的人体检测结果。观察结果如下：在输入尺寸为384×288的情况下，HRNet-W48 + DARK可以获得最佳精度，无需额外的模型参数，且成本增加很小。具体地，与具有相同输入尺寸的HRNet-W48相比，DARK将AP提高了0.7%（76.2-75.5）。与积分姿态回归相比，DARK（HRNet-W32）的AP增益为2.2%（70.0-67.8），而运行成本仅为16.4%（1.8/11.0 GFLOPs）。这些都表明DARK在准确性和效率方面优于现有模型。
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/tab6.png" width="855" height="347"/></div>
 
+**(ii)  在MPII上的评估**    比较DARK与HRNet-W32。表7表明，本文方法具有性能优势。在更严格的精度测量标准PCKh@0.1之下，DARK的性能优势更为显著。MPII提供的训练数据比COCO小得多，这表明本文方法适用于不同大小的训练数据。
 
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/tab7.png" width="520" height="281"/></div>
 
 <a name="6"></a>
 
 ## 6. 结论
 
+本文工作首次系统地研究了在无约束图像中用于人体姿态估计的坐标表示（包括编码和解码）这一基本上被忽略但却很重要的问题。不仅揭示了这个问题的真正意义，而且提出了一种新的分布感知关键点坐标表示方法（DARK），用于更具辨别力的模型训练和推理。作为一个随取随用的插件组件，现有SOTA模型可以无缝地从DARK方法中受益，无需任何算法调整，增加的计算成本可以忽略不计。除了从经验上证明坐标表示的重要性外，还在两个具有挑战性的数据集上进行了广泛的模型对比实验，验证了DARK的性能优势。提供了一系列深入的组件分析，以深入了解模型公式的设计原理。
