@@ -74,7 +74,7 @@ heatmap标签表示的一个主要难点在于计算成本，由于涉及到输�
 
 || . ||2定义为向量的数量级。这个公式表示在heatmap空间中最大激活向第二大激活偏移0.25个像素后获得的结果。原始图像中的最终坐标预测计算如下：
 
-<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func2.png" width="357" height="58"/></div>
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/func2.png" width="321" height="52"/></div>
 
 λ表示分辨率下降率。
 
@@ -120,7 +120,7 @@ D''((m) 和 D'(m)从heatmap中可以有效估计。一旦获得μ，也可以用
 
 **heatmap分布调制**    由于所提坐标解码方法是基于高斯分布假设，因此有必要检查该条件的满足程度。本文发现，与训练heatmap数据相比，由人体姿态估计模型预测的heatmap通常不具有良好的高斯结构。如下图(a)所示，heatmap通常在最大激活周围呈现多个峰值。这可能会对解码方法的性能造成消极影响。为了解决这个问题，本文建议预先调整heatmap分布。
 
-<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/fig3.png" width="823" height="390"/></div>
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/fig3.png" width="658" height="312"/></div>
 
 具体来说，为了满足本文方法的要求，提出利用高斯核K来平滑heatmap h中多个峰值的影响，高斯核的变量与训练数据采用的变量相同，平滑形式如下：
 
@@ -164,7 +164,7 @@ quantise()表示量化函数，常用选项包括floor、ceil和round。
 
 显然，由于量化误差，以上述方式生成的heatmap并不准确且有偏差（如下图）。这可能会引入次优监督信号，并导致模型性能下降，尤其是在本文所提精确坐标编码情况下。
 
-
+<div align=center><img src="../images/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation/fig4.png" width="184" height="172"/></div>
 
 为了解决这个问题，只需将heatmap中心点设置为无偏量化位置g'，该位置代表了准确的gt坐标。本文仍然使用公式(14)，但是将g''替换为g'。本文将论证这种无偏heatmap生成方法的好处（表3）。
 
