@@ -17,6 +17,7 @@
   - [Deep Learning-Based Human Pose Estimation: A Survey](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/Deep_Learning_Based_Human_Pose_Estimation_A_Survey.md)
   - [DarkPose: Distribution-Aware Coordinate Representation for Human Pose Estimation](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation.md)
   - [DeepPose: Human Pose Estimation via Deep Neural Networks](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/DeepPose_Human_Pose_Estimation_via_Deep_Neural_Networks.md)
+  - [Deep High-Resolution Representation Learning for Human Pose Estimation](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/Deep_High-Resolution_Representation_Learning_for_Human_Pose_Estimation.md)
 - Vehicle ReID
   - [Going Beyond Real Data: A Robust Visual Representation for Vehicle Re-identification](https://github.com/DXDu17/PapersReading/blob/master/VehicleReID/papers/Going_Beyond_Real_Data_A_Robust_Visual_Representation.md)
 
