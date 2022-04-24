@@ -186,7 +186,7 @@ HRNet网络结构如下所示：
 
 本文使用在ImageNet上的预训练模型初始化小网络和大网络。网络从高到低输出四个响应图。最低分辨率响应图上的heatmap预测质量最低，AP分数低于10。比较表明，分辨率确实会影响关键点预测质量。
 
-下图显示了与SimpleBaseline（ResNet-50）相比，输入图像大小如何影响性能。本文发现，较小输入的改善比较大输入的改善更显著，例如256×192改善4.0点，128×96改善6.3点，原因是在整个过程中都保持了高分辨率。另一方面，我本文输入为256×192的方法优于输入为384×288的SimpleBaseline。
+下图显示了与SimpleBaseline（ResNet-50）相比，输入图像大小如何影响性能。本文发现，较小输入的改善比较大输入的改善更显著，例如256×192改善4.0，128×96改善6.3，原因是在整个过程中都保持了高分辨率。另一方面，我本文输入为256×192的方法优于输入为384×288的SimpleBaseline。
 
 <div align=center><img src="../images/Deep_High-Resolution_Representation_Learning_for_Human_Pose_Estimation/fig6.png" width="442" height="322"/></div>
 
@@ -216,6 +216,6 @@ HRNet网络结构如下所示：
 
 #### 在ImageNet验证集上的结果
 
-将本文网络应用于图像分类任务。模型在ImageNet 2013分类数据集上训练和评估。训练了100个epoch，batch size为256。初始学习率设置为0.1，在第30、60和90个epoch时降低10倍。本文模型可以实现与专门为图像分类设计的网络（如ResNet）相当的性能。HRNet-W32单模型top-5验证误差为6.5%，top-1验证误差为22.7%。HRNet-W48获得了更好的性能：top-5错误为6.1%，top-1错误为22.1%。本文使用在ImageNet数据集上的预训练模型初始化姿态估计网络。
+将本文网络应用于图像分类任务。模型在ImageNet 2013分类数据集上训练和评估。训练了100个epoch，batch size为256。初始学习率设置为0.1，在第30、60和90个epoch时降低10倍。本文模型可以实现与专门为图像分类设计的网络（如ResNet）相当的性能。HRNet-W32单模型top-5验证误差为6.5%，top-1验证误差为22.7%。HRNet-W48获得了更好的性能：top-5误差为6.1%，top-1误差为22.1%。本文使用在ImageNet数据集上的预训练模型初始化姿态估计网络。
 
 <div align=center><img src="../images/Deep_High-Resolution_Representation_Learning_for_Human_Pose_Estimation/table9.png" width="413" height="182"/></div>
