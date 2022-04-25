@@ -1,4 +1,4 @@
-# DeepPose: Human Pose Estimation via Deep Neural Networks
+# Deep High-Resolution Representation Learning for Human Pose Estimation
 
 ------
 
