@@ -15,6 +15,7 @@
   - [Deep Learning for Person Re-identification: A Survey and Outlook](https://github.com/DXDu17/PapersReading/blob/master/PersonReID/papers/Deep_Learning_for_Person_Re-identification_A_Survey_and_Outlook.md)
 - Pose Estimation
   - [Deep Learning-Based Human Pose Estimation: A Survey](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/Deep_Learning_Based_Human_Pose_Estimation_A_Survey.md)
+  - [AID: Pushing the Performance Boundary of Human Pose Estimation with Information Dropping Augmentation](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/AID_Pushing_the_Performance_Boundary_of_Human_Pose_Estimation_with_Information_Dropping_Augmentation.md)
   - [DarkPose: Distribution-Aware Coordinate Representation for Human Pose Estimation](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/DarkPose_Distribution-Aware_Coordinate_Representation_for_Human_Pose_Estimation.md)
   - [DeepPose: Human Pose Estimation via Deep Neural Networks](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/DeepPose_Human_Pose_Estimation_via_Deep_Neural_Networks.md)
   - [Deep High-Resolution Representation Learning for Human Pose Estimation](https://github.com/DXDu17/PapersReading/blob/master/PoseEstimation/papers/Deep_High-Resolution_Representation_Learning_for_Human_Pose_Estimation.md)
