@@ -144,11 +144,12 @@
 
 在本小节中，本文使用自顶向下范式，使用HRNet-W32-256×192配置和gt人体框。为了探讨训练schedule对AID的影响，首先设计了三种不同的训练schedule：
 
-​    S1.  HRNet常规训练schedule，基础学习率为1e-3，在第170和200个epoch分别下降到1e-4和1e-5。训练过程在210个epoch内结束。
+- S1.  HRNet常规训练schedule，基础学习率为1e-3，在第170和200个epoch分别下降到1e-4和1e-5。训练过程在210个epoch内结束。
 
-​    S2.  将S1的schedule增加一倍。学习率分别在第380和410个epoch下降。训练过程在420个epoch内结束。
+- S2.  将S1的schedule增加一倍。学习率分别在第380和410个epoch下降。训练过程在420个epoch内结束。
 
-​    S3.  使用不同的配置重复两次S1的schedule，即前210个epoch不使用AID训练，之后的epoch中再加入AID。
+- S3.  使用不同的配置重复两次S1的schedule，即前210个epoch不使用AID训练，之后的epoch中再加入AID。
+
 
 根据预定义的训练schedule，Tab5列出5种实验配置、COCO val AP评估的性能和对的应训练loss如Fig2所示。E1与E2相比，使用了相同的训练schedule，区别为是否使用AID。使用AID训练时loss更高。E2在早期的表现比E1差，说明外观信息在早期训练过程中至关重要，AID会干扰对外观信息的学习。然而E1和E2在训练schedule结束时的表现相似。这意味着AID不会对标准训练schedule产生积极影响。E3与E4相比，E4采用更长的schedule。E4+AID的性能在250epoch左右开始超过E3。这种优势在随后的训练过程中逐渐增强。E3和E1相比、E4和E2相比，当使用AID时，更长的schedule使算法能学到更多有用的信息，但当没有AID时，算法会过度拟合训练数据。E4与E5相比，Schedule2和Schedule3提供了类似的改进，这表明可以复用预先训练好的模型，并通过带有AID的微调过程来提高性能。
 
