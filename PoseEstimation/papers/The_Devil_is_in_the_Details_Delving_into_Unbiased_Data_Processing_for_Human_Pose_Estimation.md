@@ -129,25 +129,25 @@ T(s->d)是源坐标系到目标坐标系的坐标系变换矩阵。图像矩阵�
 
 **剪裁**    如Fig4所示，是根据源坐标系ROI = (bxs, bys, bws, bhs)中定义的特定感兴趣区域(ROI)进行的，其中(bxs, bys)表示其中心位置，(bws, bhs)表示其宽度和高度。将源坐标系的原点移动到ROI左上角，可以获得目标坐标系。因此，变换矩阵应设计为：
 
-
+<div align=center><img src="../images/UDP/f04.png" width="535" height="109"/></div>
 
 <div align=center><img src="../images/UDP/fig5.png" width="471" height="203"/></div>
 
 **Resizing**    如Fig5所示，只会改变采样策略，并保持图像语义常量与源图像的相同。本文让四角采样点与源图像的四角采样点语义对齐，并让其他采样点均匀分布在四角分割的区域中，唯一改变的是坐标系的单位长度，变换矩阵应设计为：
 
-
+<div align=center><img src="../images/UDP/f05.png" width="540" height="105"/></div>
 
 <div align=center><img src="../images/UDP/fig6.png" width="478" height="367"/></div>
 
 **旋转**    如Fig6所示，根据旋转中心进行，旋转中心始终为特定ROI的中心，不是坐标系的原点。该设计旨在保持ROI的中心位置不变(即(bxs, bys) = (bxd, byd))。例如，ROI指的是自顶向下范式中人体实例的边界框，以及自底向上范式中的整个图像。因此，变换矩阵应设计为三种基本变换的集合：
 
-
+<div align=center><img src="../images/UDP/f06.png" width="618" height="297"/></div>
 
 <div align=center><img src="../images/UDP/fig7.png" width="466" height="213"/></div>
 
 **翻转**    如Fig7所示，通常以x=ws/2为镜子，水平交换图像的内容。因此，变换矩阵应设计为：
 
-
+<div align=center><img src="../images/UDP/f07.png" width="467" height="108"/></div>
 
 <a name="4.1.5"></a>
 
@@ -159,33 +159,33 @@ T(s->d)是源坐标系到目标坐标系的坐标系变换矩阵。图像矩阵�
 
 训练过程中，根据特定的ROI(bxs, bys, bws, bhs)和旋转角度θ首先将数据从源图像坐标系变换为网络输入坐标系。一些基本操作顺序如下：
 
-
+<div align=center><img src="../images/UDP/f08.png" width="442" height="319"/></div>
 
 然后获得了一个组合变换：
 
-
+<div align=center><img src="../images/UDP/f09.png" width="368" height="85"/></div>
 
 等式9不仅集成剪裁和resizing等必要的变换，还集成了可选增强操作(即Tf用于随机翻转，Tr用于随机旋转，Tc用于半身和随机剪裁)用于人体姿态估计器训练。剪裁和resizing是必要的，而翻转和旋转是可选的。将网络输入空间中的图像矩阵设置为网络输入，我们在网络输出空间中得到推断结果：
 
-
+<div align=center><img src="../images/UDP/f10.png" width="320" height="42"/></div>
 
 其中N表示网络。通过简单的resizing操作，标注信息在训练的同时从网络输入空间变换到网络的输出空间：
 
-
+<div align=center><img src="../images/UDP/f11.png" width="388" height="145"/></div>
 
 ko在网络输出空间中作为监督信息：
 
-
+<div align=center><img src="../images/UDP/f12.png" width="350" height="45"/></div>
 
 网络在训练过程中得到优化，因此有：
 
-
+<div align=center><img src="../images/UDP/f13.png" width="368" height="76"/></div>
 
 这意味着网络不仅学习图像矩阵Ii到关键点位置ki的映射，还学习变换(Ti→o)的映射在等式11中的定义。
 
 在测试过程中，仅将图像矩阵从源图像坐标系变换到网络输入坐标系，并进行必要的初等变换，这个过程应与训练过程的变换一致：
 
-
+<div align=center><img src="../images/UDP/f14.png" width="500" height="225"/></div>
 
 然后，通过逆变换将等式10中的网络输出变换回源图像坐标系：
 
